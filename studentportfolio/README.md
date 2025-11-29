@@ -1,5 +1,11 @@
-# Studentportfoliotemplate
+# Module 6 Part 3 - CI/CD & GitOps
 
-# This is a template for student portfolio website.
+Student: Nandini Kalsi  
+Studnet ID: 0403605  
 
-# All students must make modifications and use their images on the portfolio website to show that the you can do rapid development and rapid deployment for the purpose of the dev ops course we intend to use this for.
+This repo contains:
+- Frontend (StudentPortfolio)
+- Backend (Banking API)
+- Transactions services
+- Kubernetes manifests under `k8s/`
+- Docker Compose setup
