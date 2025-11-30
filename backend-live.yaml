@@ -1,0 +1,104 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    argocd.argoproj.io/tracking-id: nandini-project-submission:apps/Deployment:default/backend
+    deployment.kubernetes.io/revision: "1"
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{"argocd.argoproj.io/tracking-id":"nandini-project-submission:apps/Deployment:default/backend"},"labels":{"app":"backend"},"name":"backend","namespace":"default"},"spec":{"replicas":3,"revisionHistoryLimit":2,"selector":{"matchLabels":{"app":"backend"}},"template":{"metadata":{"labels":{"app":"backend"}},"spec":{"containers":[{"env":[{"name":"SECRET_KEY","valueFrom":{"secretKeyRef":{"key":"secret-key","name":"backend-secret"}}},{"name":"MONGO_URI","value":"mongodb://mongo-backend:27017/bank_app"}],"image":"ghcr.io/nkalsi-academic-rrc/module_6_part3_main-backend:4aef4d8de314fe87cc1653735fc5c62f8b10f324","imagePullPolicy":"IfNotPresent","livenessProbe":{"httpGet":{"path":"/api/health","port":"http"},"initialDelaySeconds":15,"periodSeconds":10},"name":"backend","ports":[{"containerPort":5000,"name":"http"}],"readinessProbe":{"httpGet":{"path":"/api/health","port":"http"},"initialDelaySeconds":5,"periodSeconds":5},"resources":{"limits":{"cpu":"500m","memory":"512Mi"},"requests":{"cpu":"100m","memory":"128Mi"}}}],"imagePullSecrets":[{"name":"ghcr-creds"}]}}}}
+  creationTimestamp: "2025-11-29T08:01:03Z"
+  generation: 2
+  labels:
+    app: backend
+  name: backend
+  namespace: default
+  resourceVersion: "3569"
+  uid: 3b22764c-f329-45b9-a12b-57f8026b9e42
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 3
+  revisionHistoryLimit: 2
+  selector:
+    matchLabels:
+      app: backend
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+      - env:
+        - name: SECRET_KEY
+          valueFrom:
+            secretKeyRef:
+              key: secret-key
+              name: backend-secret
+        - name: MONGO_URI
+          value: mongodb://mongo-backend:27017/bank_app
+        image: ghcr.io/nkalsi-academic-rrc/module_6_part3_main-backend:4aef4d8de314fe87cc1653735fc5c62f8b10f324
+        imagePullPolicy: IfNotPresent
+        livenessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /api/health
+            port: http
+            scheme: HTTP
+          initialDelaySeconds: 15
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 1
+        name: backend
+        ports:
+        - containerPort: 5000
+          name: http
+          protocol: TCP
+        readinessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /api/health
+            port: http
+            scheme: HTTP
+          initialDelaySeconds: 5
+          periodSeconds: 5
+          successThreshold: 1
+          timeoutSeconds: 1
+        resources:
+          limits:
+            cpu: 500m
+            memory: 512Mi
+          requests:
+            cpu: 100m
+            memory: 128Mi
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      imagePullSecrets:
+      - name: ghcr-creds
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+status:
+  availableReplicas: 3
+  conditions:
+  - lastTransitionTime: "2025-11-30T04:51:28Z"
+    lastUpdateTime: "2025-11-30T04:51:28Z"
+    message: Deployment has minimum availability.
+    reason: MinimumReplicasAvailable
+    status: "True"
+    type: Available
+  - lastTransitionTime: "2025-11-30T04:51:26Z"
+    lastUpdateTime: "2025-11-30T04:51:28Z"
+    message: ReplicaSet "backend-6f6d57f9cb" has successfully progressed.
+    reason: NewReplicaSetAvailable
+    status: "True"
+    type: Progressing
+  observedGeneration: 2
+  readyReplicas: 3
+  replicas: 3
+  updatedReplicas: 3
